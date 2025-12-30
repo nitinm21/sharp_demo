@@ -1,144 +1,224 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Film, Trophy, Gamepad2, Tv, ChevronRight, Sparkles } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { useWizard, ContentType } from "@/context/WizardContext";
-import Button from "@/components/ui/Button";
-import OptionCard from "@/components/ui/OptionCard";
-import ProgressDots from "@/components/ui/ProgressDots";
+import Image from "next/image";
 
 const contentOptions: {
   value: ContentType;
-  icon: React.ReactNode;
   label: string;
-  subtext: string;
+  image: string;
 }[] = [
   {
     value: "movies",
-    icon: <Film className="w-10 h-10" strokeWidth={1.5} />,
     label: "Movies",
-    subtext: "Films & streaming",
+    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=300&fit=crop&q=80",
   },
   {
     value: "sports",
-    icon: <Trophy className="w-10 h-10" strokeWidth={1.5} />,
     label: "Sports",
-    subtext: "Live action",
+    image: "https://images.unsplash.com/photo-1461896836934-ber5lcruj346?w=400&h=300&fit=crop&q=80",
   },
   {
     value: "gaming",
-    icon: <Gamepad2 className="w-10 h-10" strokeWidth={1.5} />,
     label: "Gaming",
-    subtext: "Console & PC",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop&q=80",
   },
   {
     value: "general",
-    icon: <Tv className="w-10 h-10" strokeWidth={1.5} />,
     label: "General",
-    subtext: "Everything else",
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=300&fit=crop&q=80",
   },
 ];
 
+// TV-style progress bar
+function ProgressBar({ current, total }: { current: number; total: number }) {
+  return (
+    <div className="flex gap-3">
+      {Array.from({ length: total }, (_, i) => (
+        <div
+          key={i}
+          className="h-1.5 rounded-full transition-all duration-300"
+          style={{
+            width: i + 1 === current ? "44px" : "22px",
+            background:
+              i + 1 <= current
+                ? "var(--accent-primary)"
+                : "rgba(255, 255, 255, 0.1)",
+            boxShadow:
+              i + 1 === current
+                ? "0 0 8px var(--accent-primary-glow)"
+                : "none",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function ContentTypeQ() {
-  const { goToNext, answers, toggleContentType, canProceed, stepNumber, totalQuestions } =
-    useWizard();
+  const {
+    goToNext,
+    answers,
+    toggleContentType,
+    canProceed,
+    stepNumber,
+    totalQuestions,
+  } = useWizard();
 
   return (
     <div
-      className="w-full h-full flex flex-col items-center justify-center px-8 py-6 relative overflow-hidden"
+      className="w-full h-full flex flex-col items-center justify-center px-10 py-10 md:px-14 md:py-12 relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, var(--bg-screen) 0%, #010203 100%)",
+        background: "linear-gradient(180deg, #0a0c12 0%, var(--bg-screen) 100%)",
       }}
     >
-      {/* Background glow */}
+      {/* Question header - minimal */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.05) 0%, transparent 60%)",
-        }}
-      />
-
-      {/* Question header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.6 }}
-        className="mb-8 text-center relative z-10"
+        transition={{ duration: 0.5 }}
+        className="mb-12 text-center relative z-10"
       >
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[--accent-primary]" />
-          <span className="text-xs font-medium text-[--text-secondary] uppercase tracking-wider">
-            Content Preference
-          </span>
-        </motion.div>
-
         <h2
-          className="text-3xl font-bold text-white mb-2"
+          className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          What do you watch most?
+          What do you watch?
         </h2>
-
-        <p className="text-sm text-[--text-muted]">
-          Select one or more options
-        </p>
       </motion.div>
 
-      {/* Options Grid */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="grid grid-cols-4 gap-4 mb-10 relative z-10"
-      >
-        {contentOptions.map((option, index) => (
-          <motion.div
-            key={option.value}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 + index * 0.08, type: "spring", stiffness: 100 }}
-          >
-            <OptionCard
-              icon={option.icon}
-              label={option.label}
-              subtext={option.subtext}
-              selected={answers.contentTypes.includes(option.value)}
-              onClick={() => toggleContentType(option.value)}
-            />
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Next Button */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: canProceed ? 1 : 0.4, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.3 }}
-        className="mb-8 relative z-10"
-      >
-        <Button onClick={goToNext} disabled={!canProceed}>
-          Continue
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </motion.div>
-
-      {/* Progress Dots */}
+      {/* Image-based Options Grid */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.1 }}
+        className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 relative z-10"
+      >
+        {contentOptions.map((option, index) => {
+          const isSelected = answers.contentTypes.includes(option.value);
+
+          return (
+            <motion.button
+              key={option.value}
+              type="button"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.15 + index * 0.05,
+                duration: 0.4,
+                ease: "easeOut",
+              }}
+              whileHover={{ scale: 1.03, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => toggleContentType(option.value)}
+              className="relative group cursor-pointer rounded-xl overflow-hidden w-[200px] h-[130px] sm:w-[220px] sm:h-[150px] lg:w-[260px] lg:h-[170px]"
+            >
+              {/* Image */}
+              <div className="absolute inset-0">
+                <Image
+                  src={option.image}
+                  alt={option.label}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(min-width: 1024px) 260px, (min-width: 640px) 220px, 200px"
+                />
+                {/* Gradient overlay */}
+                <div
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{
+                    background: isSelected
+                      ? "linear-gradient(180deg, rgba(94, 179, 228, 0.2) 0%, rgba(0,0,0,0.7) 100%)"
+                      : "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%)",
+                  }}
+                />
+              </div>
+
+              {/* Selection ring */}
+              <div
+                className="absolute inset-0 rounded-xl transition-all duration-300 pointer-events-none"
+                style={{
+                  border: isSelected
+                    ? "2px solid var(--accent-primary)"
+                    : "1px solid rgba(255, 255, 255, 0.1)",
+                  boxShadow: isSelected
+                    ? "0 0 20px rgba(94, 179, 228, 0.3), inset 0 0 20px rgba(94, 179, 228, 0.1)"
+                    : "none",
+                }}
+              />
+
+              {/* Label */}
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <span
+                  className="text-white font-medium text-base"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  {option.label}
+                </span>
+              </div>
+
+              {/* Selection checkmark */}
+              {isSelected && (
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "var(--accent-primary)",
+                    boxShadow: "0 2px 8px rgba(94, 179, 228, 0.4)",
+                  }}
+                >
+                  <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                </motion.div>
+              )}
+            </motion.button>
+          );
+        })}
+      </motion.div>
+
+      {/* Continue Button */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="mb-10 relative z-10"
+      >
+        <motion.button
+          whileHover={canProceed ? { scale: 1.02, y: -2 } : {}}
+          whileTap={canProceed ? { scale: 0.98 } : {}}
+          onClick={canProceed ? goToNext : undefined}
+          disabled={!canProceed}
+          className="group flex items-center gap-3 px-10 py-4 rounded-xl font-medium text-base cursor-pointer transition-all duration-300"
+          style={{
+            fontFamily: "var(--font-display)",
+            background: canProceed
+              ? "linear-gradient(135deg, var(--accent-primary) 0%, #4a9ed4 100%)"
+              : "rgba(255, 255, 255, 0.05)",
+            color: canProceed ? "#ffffff" : "var(--text-muted)",
+            boxShadow: canProceed
+              ? "0 4px 20px rgba(94, 179, 228, 0.3)"
+              : "none",
+            opacity: canProceed ? 1 : 0.5,
+          }}
+        >
+          <span>Continue</span>
+          <ChevronRight
+            className={`w-5 h-5 transition-transform ${canProceed ? "group-hover:translate-x-1" : ""}`}
+          />
+        </motion.button>
+      </motion.div>
+
+      {/* Progress Bar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
         className="relative z-10"
       >
-        <ProgressDots currentStep={stepNumber} totalSteps={totalQuestions} />
+        <ProgressBar current={stepNumber} total={totalQuestions} />
       </motion.div>
     </div>
   );

@@ -1,82 +1,81 @@
 @import "tailwindcss";
 
 :root {
-  /* Premium Background Palette - Deeper, Richer */
-  --bg-wall: #08090c;
-  --bg-wall-gradient: linear-gradient(145deg, #0a0d14 0%, #080a0f 40%, #050608 100%);
+  /* Premium TV Settings Palette - Inspired by LG webOS / Samsung Tizen */
+  --bg-wall: #050507;
+  --bg-wall-gradient: linear-gradient(145deg, #0a0a0f 0%, #050507 40%, #030304 100%);
   --bg-tv-bezel: #0a0a0a;
-  --bg-screen: #020304;
+  --bg-screen: #010102;
   --bg-card: rgba(255, 255, 255, 0.02);
-  --bg-card-hover: rgba(255, 255, 255, 0.05);
-  --bg-card-selected: rgba(99, 179, 237, 0.06);
+  --bg-card-hover: rgba(255, 255, 255, 0.04);
+  --bg-card-selected: rgba(99, 179, 237, 0.08);
 
-  /* Text Hierarchy - Refined */
-  --text-primary: #f0f4f8;
-  --text-secondary: #a0aec0;
-  --text-muted: #5a6677;
+  /* Text Hierarchy - Refined off-white to avoid eye strain */
+  --text-primary: #e8ecf1;
+  --text-secondary: #8b95a5;
+  --text-muted: #505866;
 
-  /* Premium Accent - Refined Ice Blue */
-  --accent-primary: #63b3ed;
-  --accent-primary-bright: #90cdf4;
-  --accent-primary-dim: rgba(99, 179, 237, 0.12);
-  --accent-primary-glow: rgba(99, 179, 237, 0.35);
+  /* Primary Accent - Cool Cyan (TV premium feel) */
+  --accent-primary: #5eb3e4;
+  --accent-primary-bright: #7ec8f5;
+  --accent-primary-dim: rgba(94, 179, 228, 0.12);
+  --accent-primary-glow: rgba(94, 179, 228, 0.4);
 
   /* Secondary Accent - Soft Violet */
-  --accent-secondary: #b794f4;
-  --accent-secondary-dim: rgba(183, 148, 244, 0.1);
-  --accent-secondary-glow: rgba(183, 148, 244, 0.25);
+  --accent-secondary: #a78bfa;
+  --accent-secondary-dim: rgba(167, 139, 250, 0.1);
+  --accent-secondary-glow: rgba(167, 139, 250, 0.25);
 
-  /* Success - Refined Emerald */
-  --accent-success: #68d391;
-  --accent-success-bright: #9ae6b4;
-  --accent-success-dim: rgba(104, 211, 145, 0.1);
-  --accent-success-glow: rgba(104, 211, 145, 0.3);
+  /* Success - Refined Teal */
+  --accent-success: #5dd4b3;
+  --accent-success-bright: #7de8ca;
+  --accent-success-dim: rgba(93, 212, 179, 0.1);
+  --accent-success-glow: rgba(93, 212, 179, 0.35);
 
-  /* Warm Accent - Soft Gold */
-  --accent-warm: #f6e05e;
-  --accent-warm-dim: rgba(246, 224, 94, 0.1);
+  /* Warm Accent - Soft Amber */
+  --accent-warm: #f0c674;
+  --accent-warm-dim: rgba(240, 198, 116, 0.1);
 
-  /* Borders - More Subtle */
-  --border-subtle: rgba(255, 255, 255, 0.04);
-  --border-card: rgba(255, 255, 255, 0.06);
-  --border-selected: rgba(99, 179, 237, 0.5);
+  /* Borders - Subtle for TV aesthetic */
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  --border-card: rgba(255, 255, 255, 0.05);
+  --border-selected: rgba(94, 179, 228, 0.6);
 
-  /* Ambient Glow Colors - More Vibrant */
-  --glow-cyan: rgba(99, 179, 237, 0.4);
-  --glow-violet: rgba(183, 148, 244, 0.35);
-  --glow-warm: rgba(246, 224, 94, 0.25);
-  --glow-success: rgba(104, 211, 145, 0.3);
+  /* Ambient Glow Colors */
+  --glow-cyan: rgba(94, 179, 228, 0.35);
+  --glow-violet: rgba(167, 139, 250, 0.25);
+  --glow-warm: rgba(240, 198, 116, 0.2);
+  --glow-success: rgba(93, 212, 179, 0.3);
 
-  /* Glassmorphism - Deeper */
-  --glass-bg: rgba(8, 12, 20, 0.7);
-  --glass-bg-light: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 24px;
+  /* Glassmorphism */
+  --glass-bg: rgba(8, 10, 16, 0.6);
+  --glass-bg-light: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-blur: 20px;
 
-  /* Spacing */
+  /* Spacing - Generous for TV viewing */
   --space-xs: 8px;
   --space-sm: 16px;
   --space-md: 24px;
-  --space-lg: 32px;
-  --space-xl: 48px;
+  --space-lg: 40px;
+  --space-xl: 64px;
 
   /* Premium Shadows */
-  --shadow-glow: 0 0 80px var(--glow-cyan), 0 0 160px var(--glow-violet);
+  --shadow-glow: 0 0 60px var(--glow-cyan), 0 0 120px var(--glow-violet);
   --shadow-card:
-    0 4px 24px rgba(0, 0, 0, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.5),
     0 0 0 1px var(--border-subtle);
   --shadow-card-hover:
-    0 8px 40px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
-  --shadow-button: 0 4px 20px rgba(99, 179, 237, 0.25);
-  --shadow-button-hover: 0 8px 40px rgba(99, 179, 237, 0.35);
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-button: 0 4px 24px rgba(94, 179, 228, 0.25);
+  --shadow-button-hover: 0 8px 40px rgba(94, 179, 228, 0.4);
 
-  /* Selection Shadow - More Dramatic */
+  /* Selection Shadow - Clean ring */
   --shadow-selection:
     0 0 0 2px var(--accent-primary),
-    0 0 30px rgba(99, 179, 237, 0.4),
-    0 0 60px rgba(99, 179, 237, 0.2),
-    0 4px 20px rgba(0, 0, 0, 0.4);
+    0 0 24px rgba(94, 179, 228, 0.35),
+    0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 @theme inline {
@@ -111,51 +110,48 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display), system-ui, sans-serif;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  font-weight: 500;
 }
 
-/* Premium Button Styles */
+/* Premium Button - TV Style */
 .btn-premium {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #4299e1 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #4a9ed4 100%);
   box-shadow:
-    0 4px 20px rgba(99, 179, 237, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 1px 0 rgba(255, 255, 255, 0.2) inset;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    0 4px 20px rgba(94, 179, 228, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-premium:hover {
   box-shadow:
-    0 8px 40px rgba(99, 179, 237, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-    0 1px 0 rgba(255, 255, 255, 0.25) inset;
-  transform: translateY(-3px);
+    0 6px 32px rgba(94, 179, 228, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+  transform: translateY(-2px);
 }
 
 .btn-premium:active {
-  transform: translateY(-1px);
+  transform: translateY(0);
   box-shadow:
-    0 4px 20px rgba(99, 179, 237, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+    0 2px 16px rgba(94, 179, 228, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .btn-success {
-  background: linear-gradient(135deg, var(--accent-success) 0%, #48bb78 100%);
+  background: linear-gradient(135deg, var(--accent-success) 0%, #4bc4a0 100%);
   box-shadow:
-    0 4px 20px rgba(104, 211, 145, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    0 4px 20px rgba(93, 212, 179, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .btn-success:hover {
   box-shadow:
-    0 8px 40px rgba(104, 211, 145, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-    0 1px 0 rgba(255, 255, 255, 0.25) inset;
-  transform: translateY(-3px);
+    0 6px 32px rgba(93, 212, 179, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+  transform: translateY(-2px);
 }
 
-/* Glassmorphism Card - Enhanced */
+/* Glass Card - TV Premium */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur));
@@ -164,43 +160,75 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-card);
 }
 
-/* Premium Card with Depth */
+/* Premium Card */
 .premium-card {
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.03) 0%,
     rgba(255, 255, 255, 0.01) 100%
   );
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-card:hover {
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.05) 0%,
     rgba(255, 255, 255, 0.02) 100%
   );
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.08);
   box-shadow:
-    0 8px 40px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
-  transform: translateY(-4px);
+    0 6px 28px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  transform: translateY(-3px);
 }
 
-/* Animations - Refined */
+/* TV-style Selection Card */
+.selection-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.selection-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: scale(1.02);
+}
+
+.selection-card.selected {
+  background: rgba(94, 179, 228, 0.08);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px var(--accent-primary), 0 0 20px rgba(94, 179, 228, 0.2);
+}
+
+/* Animations - Smooth and Deliberate (TV-like) */
 @keyframes ambientPulse {
   0%, 100% {
-    opacity: 0.6;
+    opacity: 0.5;
     transform: scale(1);
   }
   50% {
-    opacity: 1;
-    transform: scale(1.03);
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }
 
@@ -209,77 +237,34 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateX(-100%);
   }
   100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes shimmerSlow {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
     transform: translateX(200%);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px) translateX(0px);
-  }
-  33% {
-    transform: translateY(-8px) translateX(4px);
-  }
-  66% {
-    transform: translateY(-4px) translateX(-4px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px var(--accent-primary-glow), 0 0 40px rgba(99, 179, 237, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 40px var(--accent-primary-glow), 0 0 80px rgba(99, 179, 237, 0.2);
   }
 }
 
 @keyframes breathe {
   0%, 100% {
-    opacity: 0.5;
+    opacity: 0.4;
   }
   50% {
-    opacity: 0.8;
+    opacity: 0.7;
   }
 }
 
-@keyframes sparkle {
+@keyframes pulseGlow {
   0%, 100% {
-    opacity: 0;
-    transform: scale(0) rotate(0deg);
+    box-shadow: 0 0 16px var(--accent-primary-glow), 0 0 32px rgba(94, 179, 228, 0.1);
   }
   50% {
-    opacity: 1;
-    transform: scale(1) rotate(180deg);
+    box-shadow: 0 0 28px var(--accent-primary-glow), 0 0 56px rgba(94, 179, 228, 0.15);
+  }
+}
+
+@keyframes flowingLines {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
 
@@ -296,7 +281,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .animate-ambient {
-  animation: ambientPulse 5s ease-in-out infinite;
+  animation: ambientPulse 6s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: subtleFloat 6s ease-in-out infinite;
 }
 
 .animate-shimmer {
@@ -311,30 +300,26 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.06) 50%,
     transparent 100%
   );
-  animation: shimmerSlow 4s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: floatSlow 8s ease-in-out infinite;
+  animation: shimmer 4s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
+  animation: pulseGlow 4s ease-in-out infinite;
 }
 
 .animate-breathe {
-  animation: breathe 4s ease-in-out infinite;
+  animation: breathe 5s ease-in-out infinite;
 }
 
-/* Selection glow effect - Enhanced */
+/* Selection glow */
 .selection-glow {
   box-shadow: var(--shadow-selection);
 }
 
-/* Premium text gradient */
+/* Text gradients */
 .text-gradient-primary {
   background: linear-gradient(135deg, #ffffff 0%, var(--accent-primary-bright) 100%);
   -webkit-background-clip: text;
@@ -343,7 +328,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-gradient-hero {
-  background: linear-gradient(135deg, #ffffff 20%, var(--accent-primary) 80%);
+  background: linear-gradient(135deg, #ffffff 30%, var(--accent-primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -362,31 +347,96 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.025;
+  opacity: 0.02;
   pointer-events: none;
   mix-blend-mode: overlay;
 }
 
-/* Focus styles for accessibility */
+/* Focus styles */
 button:focus-visible {
   outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 
-/* Smooth scrollbar for webkit */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-::-webkit-scrollbar-thumb {
+/* Progress indicator - TV style */
+.progress-segment {
+  height: 3px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+.progress-segment.active {
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary-glow);
+}
+
+.progress-segment.completed {
+  background: var(--accent-primary);
+}
+
+/* Scrollbar - hidden for TV feel */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Image selection card */
+.image-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.image-card:hover::after {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.image-card.selected::after {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 20px rgba(94, 179, 228, 0.3);
+}
+
+/* Time of day gradients */
+.gradient-daytime {
+  background: linear-gradient(
+    135deg,
+    #fef3c7 0%,
+    #fde68a 30%,
+    #fbbf24 60%,
+    #f59e0b 100%
+  );
+}
+
+.gradient-nighttime {
+  background: linear-gradient(
+    135deg,
+    #1e1b4b 0%,
+    #312e81 40%,
+    #4338ca 70%,
+    #6366f1 100%
+  );
+}
+
+.gradient-both {
+  background: linear-gradient(
+    135deg,
+    #fbbf24 0%,
+    #f59e0b 25%,
+    #6366f1 75%,
+    #4338ca 100%
+  );
 }

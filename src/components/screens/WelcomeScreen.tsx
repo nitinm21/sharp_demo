@@ -1,86 +1,125 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, ChevronRight, Play, Monitor } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useWizard } from "@/context/WizardContext";
-import Button from "@/components/ui/Button";
 
-// Seeded random function for deterministic values
-function seededRandom(seed: number): number {
-  const x = Math.sin(seed * 9999) * 10000;
-  return x - Math.floor(x);
-}
-
-// Premium floating orb component
-function FloatingOrb({
-  delay,
-  x,
-  y,
-  size,
-  color,
-  duration,
-  drift,
-}: {
-  delay: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  duration: number;
-  drift: number;
-}) {
+// Abstract animated rings representing picture quality optimization
+function OptimizationRings() {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        opacity: [0, 0.6, 0.6, 0],
-        scale: [0.5, 1, 1, 0.5],
-        y: [y, y - 150],
-        x: [x, x + drift],
-      }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        width: size,
-        height: size,
-        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-        filter: "blur(2px)",
-      }}
-    />
-  );
-}
+    <div className="relative w-56 h-56 md:w-64 md:h-64">
+      {/* Outer ring */}
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="absolute inset-0"
+      >
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="w-full h-full rounded-full"
+          style={{
+            border: "1px solid rgba(94, 179, 228, 0.2)",
+            background: "radial-gradient(circle, transparent 60%, rgba(94, 179, 228, 0.03) 100%)",
+          }}
+        />
+      </motion.div>
 
-// Ambient particle that drifts slowly - using deterministic values
-function AmbientParticle({ index }: { index: number }) {
-  const xPosition = (index % 5) * 180 - 360;
-  const delayValue = index * 0.8;
-  // Use seeded random for deterministic values
-  const durationValue = 10 + seededRandom(index * 7) * 5;
-  const sizeValue = 3 + seededRandom(index * 13) * 4;
-  const driftValue = (seededRandom(index * 17) - 0.5) * 80;
-  const colors = [
-    "rgba(99, 179, 237, 0.5)",
-    "rgba(183, 148, 244, 0.4)",
-    "rgba(104, 211, 145, 0.3)",
-    "rgba(246, 224, 94, 0.3)",
-  ];
-  const color = colors[index % colors.length];
+      {/* Middle ring */}
+      <motion.div
+        initial={{ scale: 0.6, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+        className="absolute inset-6"
+      >
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="w-full h-full rounded-full"
+          style={{
+            border: "1px solid rgba(94, 179, 228, 0.25)",
+            background: "radial-gradient(circle, transparent 50%, rgba(94, 179, 228, 0.05) 100%)",
+          }}
+        />
+      </motion.div>
 
-  return (
-    <FloatingOrb
-      delay={delayValue}
-      x={xPosition}
-      y={200}
-      size={sizeValue}
-      color={color}
-      duration={durationValue}
-      drift={driftValue}
-    />
+      {/* Inner ring */}
+      <motion.div
+        initial={{ scale: 0.4, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+        className="absolute inset-12"
+      >
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="w-full h-full rounded-full"
+          style={{
+            border: "1px solid rgba(94, 179, 228, 0.3)",
+            background: "radial-gradient(circle, rgba(94, 179, 228, 0.08) 0%, rgba(94, 179, 228, 0.02) 100%)",
+          }}
+        />
+      </motion.div>
+
+      {/* Center core */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 200 }}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <motion.div
+          animate={{
+            boxShadow: [
+              "0 0 20px rgba(94, 179, 228, 0.3), 0 0 40px rgba(94, 179, 228, 0.1)",
+              "0 0 30px rgba(94, 179, 228, 0.5), 0 0 60px rgba(94, 179, 228, 0.2)",
+              "0 0 20px rgba(94, 179, 228, 0.3), 0 0 40px rgba(94, 179, 228, 0.1)",
+            ],
+          }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="w-16 h-16 rounded-full flex items-center justify-center"
+          style={{
+            background: "linear-gradient(135deg, rgba(94, 179, 228, 0.15) 0%, rgba(94, 179, 228, 0.05) 100%)",
+            border: "1px solid rgba(94, 179, 228, 0.4)",
+          }}
+        >
+          {/* Abstract TV symbol - three horizontal bars */}
+          <div className="flex flex-col gap-1.5">
+            <motion.div
+              animate={{ width: ["16px", "20px", "16px"] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0 }}
+              className="h-0.5 bg-[var(--accent-primary)] rounded-full"
+            />
+            <motion.div
+              animate={{ width: ["20px", "14px", "20px"] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+              className="h-0.5 bg-[var(--accent-primary)] rounded-full"
+            />
+            <motion.div
+              animate={{ width: ["14px", "18px", "14px"] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
+              className="h-0.5 bg-[var(--accent-primary)] rounded-full"
+            />
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Orbiting dot */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0"
+      >
+        <motion.div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full"
+          style={{
+            background: "var(--accent-primary)",
+            boxShadow: "0 0 10px var(--accent-primary-glow)",
+          }}
+        />
+      </motion.div>
+    </div>
   );
 }
 
@@ -89,298 +128,94 @@ export default function WelcomeScreen() {
 
   return (
     <div
-      className="w-full h-full flex flex-col items-center justify-center text-center px-12 relative overflow-hidden"
+      className="w-full h-full flex flex-col items-center justify-center text-center px-12 md:px-16 relative overflow-hidden"
       style={{
-        background:
-          "radial-gradient(ellipse at center, #080c14 0%, #020304 100%)",
+        background: "radial-gradient(ellipse at center, #0a0c12 0%, var(--bg-screen) 100%)",
       }}
     >
-      {/* Premium background gradient layers */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Central radial glow */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-          className="absolute inset-0"
-        >
-          <motion.div
-            animate={{
-              scale: [1, 1.15, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px]"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(99, 179, 237, 0.12) 0%, rgba(183, 148, 244, 0.06) 35%, transparent 65%)",
-              filter: "blur(60px)",
-            }}
-          />
-        </motion.div>
-
-        {/* Secondary accent glow */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.35, 0.2],
-            x: [0, 20, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-1/3 left-1/3 w-[400px] h-[400px]"
+      {/* Subtle ambient glow */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        className="absolute inset-0 pointer-events-none"
+      >
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
           style={{
-            background:
-              "radial-gradient(circle, rgba(183, 148, 244, 0.15) 0%, transparent 60%)",
-            filter: "blur(80px)",
+            background: "radial-gradient(circle, rgba(94, 179, 228, 0.06) 0%, transparent 60%)",
+            filter: "blur(40px)",
           }}
         />
-      </div>
+      </motion.div>
 
-      {/* Floating ambient particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-        {Array.from({ length: 15 }, (_, i) => (
-          <AmbientParticle key={i} index={i} />
-        ))}
-      </div>
-
-      {/* Main content container */}
+      {/* Main content */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         className="relative z-10 flex flex-col items-center"
       >
-        {/* Premium TV Icon with animated glow */}
+        {/* Abstract visual element */}
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
+          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            delay: 0.2,
-            type: "spring",
-            stiffness: 120,
-            damping: 14,
-          }}
-          className="mb-12 relative"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-12"
         >
-          {/* Outer pulse ring */}
-          <motion.div
-            animate={{
-              scale: [1, 1.6, 1],
-              opacity: [0.3, 0, 0.3],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeOut",
-            }}
-            className="absolute inset-0 w-24 h-24 rounded-3xl"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(99, 179, 237, 0.3) 0%, rgba(183, 148, 244, 0.2) 100%)",
-              filter: "blur(20px)",
-            }}
-          />
-
-          {/* Secondary pulse ring */}
-          <motion.div
-            animate={{
-              scale: [1, 1.4, 1],
-              opacity: [0.2, 0, 0.2],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeOut",
-              delay: 0.5,
-            }}
-            className="absolute inset-0 w-24 h-24 rounded-3xl"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(99, 179, 237, 0.4) 0%, transparent 70%)",
-              filter: "blur(15px)",
-            }}
-          />
-
-          {/* Icon container with premium glass effect */}
-          <motion.div
-            animate={{
-              boxShadow: [
-                "0 0 40px rgba(99, 179, 237, 0.2), inset 0 0 30px rgba(99, 179, 237, 0.05)",
-                "0 0 60px rgba(99, 179, 237, 0.35), inset 0 0 40px rgba(99, 179, 237, 0.1)",
-                "0 0 40px rgba(99, 179, 237, 0.2), inset 0 0 30px rgba(99, 179, 237, 0.05)",
-              ],
-            }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="w-24 h-24 rounded-3xl flex items-center justify-center relative overflow-hidden"
-            style={{
-              background:
-                "linear-gradient(145deg, rgba(99, 179, 237, 0.12) 0%, rgba(99, 179, 237, 0.04) 100%)",
-              border: "1px solid rgba(99, 179, 237, 0.25)",
-              backdropFilter: "blur(12px)",
-            }}
-          >
-            {/* Inner shine effect */}
-            <motion.div
-              animate={{ x: [-100, 200] }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                repeatDelay: 2,
-              }}
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
-                width: "50%",
-              }}
-            />
-
-            {/* TV Icon - Custom premium design */}
-            <div className="relative">
-              <Monitor
-                className="w-11 h-11 text-[var(--accent-primary)]"
-                strokeWidth={1.5}
-              />
-              {/* Animated "screen" indicator */}
-              <motion.div
-                animate={{
-                  opacity: [0.4, 0.8, 0.4],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-3 rounded-sm"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(99, 179, 237, 0.6) 0%, rgba(183, 148, 244, 0.4) 100%)",
-                  marginTop: "-2px",
-                }}
-              />
-            </div>
-          </motion.div>
+          <OptimizationRings />
         </motion.div>
 
-        {/* Headline with staggered reveal and text glow */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-2"
-        >
-          <h1
-            className="text-5xl font-semibold leading-tight tracking-tight"
-            style={{
-              fontFamily: "var(--font-display)",
-              background: "linear-gradient(135deg, #ffffff 0%, #c4d4e4 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Perfect Picture
-          </h1>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+        {/* Title - Clean and Bold */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 relative"
+          className="text-6xl md:text-7xl font-medium tracking-tight mb-6"
+          style={{
+            fontFamily: "var(--font-display)",
+            background: "linear-gradient(135deg, #ffffff 0%, #b8c5d4 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
         >
-          {/* Text glow effect */}
-          <motion.div
-            animate={{ opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="absolute inset-0 blur-2xl"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(99, 179, 237, 0.3) 0%, rgba(183, 148, 244, 0.2) 100%)",
-            }}
-          />
-          <h2
-            className="text-5xl font-semibold relative tracking-tight"
-            style={{
-              fontFamily: "var(--font-display)",
-              background:
-                "linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            In Seconds
-          </h2>
-        </motion.div>
+          Perfect Picture
+        </motion.h1>
 
-        {/* Subtext - refined and elegant */}
+        {/* Subtitle - minimal */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.6 }}
-          className="text-lg mb-14 max-w-md leading-relaxed font-light"
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="text-xl md:text-2xl mb-20 font-light tracking-wide"
           style={{
             fontFamily: "var(--font-body)",
             color: "var(--text-secondary)",
           }}
         >
-          Answer a few quick questions and we&apos;ll optimize your TV settings
-          for the ultimate viewing experience.
+          Personalized in seconds
         </motion.p>
 
-        {/* Premium CTA Button */}
-        <motion.div
+        {/* CTA Button - Premium and focused */}
+        <motion.button
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85, duration: 0.6 }}
-          className="relative"
+          transition={{ delay: 0.8, duration: 0.6 }}
+          whileHover={{ scale: 1.02, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={goToNext}
+          className="group relative flex items-center gap-3 px-12 py-5 rounded-xl font-medium text-lg cursor-pointer"
+          style={{
+            fontFamily: "var(--font-display)",
+            background: "linear-gradient(135deg, var(--accent-primary) 0%, #4a9ed4 100%)",
+            color: "#ffffff",
+            boxShadow: "0 4px 24px rgba(94, 179, 228, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+          }}
         >
-          {/* Button glow */}
-          <motion.div
-            animate={{
-              opacity: [0.4, 0.7, 0.4],
-              scale: [1, 1.05, 1],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="absolute inset-0 -m-2 rounded-2xl blur-xl"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(99, 179, 237, 0.4) 0%, rgba(99, 179, 237, 0.2) 100%)",
-            }}
-          />
-          <Button onClick={goToNext} size="large">
-            <Sparkles className="w-5 h-5" />
-            Get Started
-            <ChevronRight className="w-5 h-5" />
-          </Button>
-        </motion.div>
-
-        {/* Trust indicator - subtle and premium */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-          className="mt-10 flex items-center gap-2"
-        >
-          <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: "var(--accent-success)" }}
-          />
-          <p
-            className="text-xs tracking-widest uppercase font-medium"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Takes less than 60 seconds
-          </p>
-        </motion.div>
+          <span>Start Setup</span>
+          <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+        </motion.button>
       </motion.div>
     </div>
   );

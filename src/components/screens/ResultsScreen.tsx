@@ -1,85 +1,87 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, RotateCcw, Sparkles, Star } from "lucide-react";
+import { Check, RotateCcw, Sparkles } from "lucide-react";
 import { useWizard } from "@/context/WizardContext";
 import { getProfile } from "@/data/profiles";
-import Button from "@/components/ui/Button";
 
-// Seeded random function for deterministic values (avoids hydration mismatch)
-function seededRandom(seed: number): number {
-  const x = Math.sin(seed * 9999) * 10000;
-  return x - Math.floor(x);
-}
-
-// Premium confetti particle
-function ConfettiParticle({
-  delay,
-  startX,
-  color,
-  size,
-  endXOffset,
-  endYOffset,
-  rotation,
-  isRound,
-}: {
-  delay: number;
-  startX: number;
-  color: string;
-  size: number;
-  endXOffset: number;
-  endYOffset: number;
-  rotation: number;
-  isRound: boolean;
-}) {
-  const endX = startX + endXOffset;
-  const endY = 300 + endYOffset;
-
+// Success ring animation
+function SuccessRing({ delay }: { delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 1, x: startX, y: -20, scale: 1, rotate: 0 }}
-      animate={{
-        opacity: [1, 1, 0],
-        x: endX,
-        y: endY,
-        scale: [1, 1.2, 0.6],
-        rotate: rotation,
-      }}
-      transition={{
-        duration: 2.5,
-        delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-      className="absolute pointer-events-none"
+      initial={{ scale: 0.5, opacity: 0.8 }}
+      animate={{ scale: 2.5, opacity: 0 }}
+      transition={{ duration: 1.5, delay, ease: "easeOut" }}
+      className="absolute inset-0 rounded-full"
       style={{
-        width: size,
-        height: size,
-        background: color,
-        borderRadius: isRound ? "50%" : "2px",
-        boxShadow: `0 0 ${size}px ${color}`,
+        border: "1px solid rgba(93, 212, 179, 0.4)",
       }}
     />
   );
 }
 
-// Glow ring that expands outward
-function GlowRing({ delay, color }: { delay: number; color: string }) {
+// Abstract profile visualization
+function ProfileVisualization({ profileName }: { profileName: string }) {
+  // Different visualizations based on profile type
+  const isGaming = profileName.toLowerCase().includes("game");
+  const isSports = profileName.toLowerCase().includes("sport");
+  const isCinema = profileName.toLowerCase().includes("cinema") || profileName.toLowerCase().includes("movie");
+  const isNight = profileName.toLowerCase().includes("night");
+
+  const primaryColor = isGaming
+    ? "rgba(167, 139, 250, 0.6)"
+    : isSports
+    ? "rgba(94, 179, 228, 0.6)"
+    : isCinema
+    ? "rgba(240, 198, 116, 0.5)"
+    : "rgba(93, 212, 179, 0.5)";
+
+  const secondaryColor = isNight
+    ? "rgba(99, 102, 241, 0.4)"
+    : "rgba(255, 255, 255, 0.1)";
+
   return (
-    <motion.div
-      initial={{ scale: 0.5, opacity: 0.8 }}
-      animate={{ scale: 3, opacity: 0 }}
-      transition={{
-        duration: 1.8,
-        delay,
-        ease: "easeOut",
-      }}
-      className="absolute inset-0 rounded-full"
-      style={{
-        border: `2px solid ${color}`,
-        boxShadow: `0 0 20px ${color}`,
-      }}
-    />
+    <div className="relative w-40 h-40">
+      {/* Outer ring */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 rounded-full"
+        style={{
+          border: `1px solid ${primaryColor}`,
+          background: `radial-gradient(circle, transparent 60%, ${secondaryColor} 100%)`,
+        }}
+      />
+
+      {/* Middle ring */}
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-4 rounded-full"
+        style={{
+          border: `1px solid ${primaryColor}`,
+        }}
+      />
+
+      {/* Inner glow */}
+      <motion.div
+        animate={{
+          boxShadow: [
+            `0 0 20px ${primaryColor}, 0 0 40px ${secondaryColor}`,
+            `0 0 30px ${primaryColor}, 0 0 60px ${secondaryColor}`,
+            `0 0 20px ${primaryColor}, 0 0 40px ${secondaryColor}`,
+          ],
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute inset-8 rounded-full flex items-center justify-center"
+        style={{
+          background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
+        }}
+      >
+        <Check className="w-10 h-10 text-white" strokeWidth={2.5} />
+      </motion.div>
+    </div>
   );
 }
 
@@ -91,30 +93,8 @@ export default function ResultsScreen() {
 
   const profile = getProfile(answers);
 
-  // Generate celebration particles with varied colors
-  const confettiColors = [
-    "rgba(104, 211, 145, 0.9)",
-    "rgba(99, 179, 237, 0.9)",
-    "rgba(183, 148, 244, 0.9)",
-    "rgba(246, 224, 94, 0.9)",
-    "rgba(255, 255, 255, 0.9)",
-  ];
-
-  // Use useMemo with seeded random for deterministic values (avoids hydration mismatch)
-  const particles = useMemo(() => Array.from({ length: 40 }, (_, i) => ({
-    id: i,
-    delay: i * 0.02,
-    startX: (seededRandom(i * 3) - 0.5) * 100,
-    color: confettiColors[i % confettiColors.length],
-    size: 4 + seededRandom(i * 5) * 6,
-    endXOffset: (seededRandom(i * 7) - 0.5) * 300,
-    endYOffset: seededRandom(i * 11) * 200,
-    rotation: seededRandom(i * 13) * 720 - 360,
-    isRound: seededRandom(i * 17) > 0.5,
-  })), []);
-
   useEffect(() => {
-    const timer = setTimeout(() => setShowCelebration(false), 3000);
+    const timer = setTimeout(() => setShowCelebration(false), 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -136,119 +116,59 @@ export default function ResultsScreen() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-full flex flex-col items-center justify-center px-8 py-6 relative overflow-hidden"
+      className="w-full h-full flex flex-col items-center justify-center px-10 py-10 md:px-14 md:py-12 relative overflow-hidden"
       style={{
-        background:
-          "radial-gradient(ellipse at center top, #0a1018 0%, #020304 100%)",
+        background: "radial-gradient(ellipse at center top, #0c1018 0%, var(--bg-screen) 100%)",
       }}
     >
-      {/* Celebration confetti */}
+      {/* Celebration effect */}
       <AnimatePresence>
         {showCelebration && (
-          <div className="absolute inset-0 flex items-start justify-center pointer-events-none overflow-hidden">
-            {particles.map((p) => (
-              <ConfettiParticle
-                key={p.id}
-                delay={p.delay}
-                startX={p.startX}
-                color={p.color}
-                size={p.size}
-                endXOffset={p.endXOffset}
-                endYOffset={p.endYOffset}
-                rotation={p.rotation}
-                isRound={p.isRound}
-              />
-            ))}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <SuccessRing delay={0} />
+            <SuccessRing delay={0.2} />
+            <SuccessRing delay={0.4} />
           </div>
         )}
       </AnimatePresence>
 
-      {/* Background success glow */}
+      {/* Background ambient glow */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
         className="absolute inset-0 pointer-events-none"
       >
         <motion.div
-          animate={{
-            opacity: [0.15, 0.25, 0.15],
-            scale: [1, 1.1, 1],
-          }}
+          animate={{ opacity: [0.15, 0.25, 0.15] }}
           transition={{ duration: 5, repeat: Infinity }}
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px]"
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px]"
           style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(104, 211, 145, 0.15) 0%, transparent 60%)",
-            filter: "blur(60px)",
+            background: "radial-gradient(ellipse at center, rgba(93, 212, 179, 0.12) 0%, transparent 60%)",
+            filter: "blur(50px)",
           }}
         />
       </motion.div>
 
-      {/* Success checkmark with premium glow rings */}
+      {/* Profile visualization */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
-        className="mb-6 relative"
+        transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
+        className="mb-10 relative z-10"
       >
-        {/* Expanding glow rings */}
-        <GlowRing delay={0.3} color="rgba(104, 211, 145, 0.5)" />
-        <GlowRing delay={0.5} color="rgba(104, 211, 145, 0.4)" />
-        <GlowRing delay={0.7} color="rgba(104, 211, 145, 0.3)" />
-
-        {/* Success icon container */}
-        <motion.div
-          animate={{
-            boxShadow: [
-              "0 0 40px rgba(104, 211, 145, 0.3), inset 0 0 20px rgba(104, 211, 145, 0.1)",
-              "0 0 60px rgba(104, 211, 145, 0.5), inset 0 0 30px rgba(104, 211, 145, 0.15)",
-              "0 0 40px rgba(104, 211, 145, 0.3), inset 0 0 20px rgba(104, 211, 145, 0.1)",
-            ],
-          }}
-          transition={{ repeat: Infinity, duration: 3 }}
-          className="w-18 h-18 rounded-2xl flex items-center justify-center relative z-10"
-          style={{
-            width: 72,
-            height: 72,
-            background:
-              "linear-gradient(145deg, rgba(104, 211, 145, 0.15) 0%, rgba(104, 211, 145, 0.05) 100%)",
-            border: "1px solid rgba(104, 211, 145, 0.35)",
-            backdropFilter: "blur(12px)",
-          }}
-        >
-          <Check
-            className="w-9 h-9"
-            strokeWidth={2.5}
-            style={{ color: "var(--accent-success)" }}
-          />
-        </motion.div>
+        <ProfileVisualization profileName={profile.name} />
       </motion.div>
 
-      {/* Header text */}
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="text-sm tracking-widest uppercase font-medium mb-3"
-        style={{
-          fontFamily: "var(--font-body)",
-          color: "var(--text-secondary)",
-        }}
-      >
-        Your Profile is Ready
-      </motion.p>
-
-      {/* Profile Name with premium gradient */}
+      {/* Profile Name */}
       <motion.h1
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="text-4xl font-semibold mb-2 text-center tracking-tight"
+        transition={{ delay: 0.4 }}
+        className="text-5xl md:text-6xl font-medium mb-4 text-center tracking-tight"
         style={{
           fontFamily: "var(--font-display)",
-          background:
-            "linear-gradient(135deg, #ffffff 0%, var(--accent-success-bright) 100%)",
+          background: "linear-gradient(135deg, #ffffff 0%, var(--accent-success-bright) 100%)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -257,62 +177,41 @@ export default function ResultsScreen() {
         {profile.name}
       </motion.h1>
 
-      {/* Profile Description */}
+      {/* Description */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="text-sm mb-10 text-center max-w-md font-light"
+        transition={{ delay: 0.5 }}
+        className="text-lg mb-12 text-center max-w-lg font-light"
         style={{
           fontFamily: "var(--font-body)",
-          color: "var(--text-muted)",
+          color: "var(--text-secondary)",
         }}
       >
         {profile.description}
       </motion.p>
 
-      {/* Settings Strip - Premium Chips */}
+      {/* Settings display - Clean pills without emojis */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
-        className="flex flex-wrap justify-center gap-3 mb-10 max-w-2xl"
+        transition={{ delay: 0.6 }}
+        className="flex flex-wrap justify-center gap-3 mb-14 max-w-2xl"
       >
         {profile.settings.map((setting, index) => (
           <motion.div
             key={setting.label}
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{
-              delay: 0.8 + index * 0.08,
-              type: "spring",
-              stiffness: 250,
-              damping: 20,
-            }}
-            whileHover={{ scale: 1.05, y: -3 }}
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl relative overflow-hidden group cursor-default"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7 + index * 0.05 }}
+            className="px-5 py-2.5 rounded-full"
             style={{
-              background:
-                "linear-gradient(145deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)",
-              border: "1px solid rgba(255, 255, 255, 0.06)",
-              boxShadow:
-                "0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04)",
+              background: "rgba(255, 255, 255, 0.04)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
-            {/* Hover glow */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 1 }}
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(ellipse at center, rgba(104, 211, 145, 0.08) 0%, transparent 70%)",
-              }}
-            />
-
-            <span className="text-lg relative z-10">{setting.icon}</span>
             <span
-              className="text-sm font-medium relative z-10"
+              className="text-base"
               style={{
                 fontFamily: "var(--font-body)",
                 color: "var(--text-secondary)",
@@ -324,109 +223,79 @@ export default function ResultsScreen() {
         ))}
       </motion.div>
 
-      {/* Buttons */}
+      {/* Action buttons */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={{ delay: 1 }}
         className="flex flex-col items-center gap-4"
       >
         <AnimatePresence mode="wait">
           {!isApplied ? (
-            <motion.div
+            <motion.button
               key="apply"
               initial={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="relative"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleApply}
+              className="group flex items-center gap-3 px-12 py-5 rounded-xl font-medium text-lg cursor-pointer"
+              style={{
+                fontFamily: "var(--font-display)",
+                background: "linear-gradient(135deg, var(--accent-success) 0%, #4bc4a0 100%)",
+                color: "#ffffff",
+                boxShadow: "0 4px 24px rgba(93, 212, 179, 0.3)",
+              }}
             >
-              {/* Button glow */}
-              <motion.div
-                animate={{
-                  opacity: [0.4, 0.7, 0.4],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="absolute inset-0 -m-2 rounded-2xl blur-xl"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(104, 211, 145, 0.4) 0%, rgba(104, 211, 145, 0.2) 100%)",
-                }}
-              />
-              <Button onClick={handleApply} variant="success" size="large">
-                <Sparkles className="w-5 h-5" />
-                Apply This Profile
-              </Button>
-            </motion.div>
+              <Sparkles className="w-6 h-6" />
+              <span>Apply Profile</span>
+            </motion.button>
           ) : (
             <motion.div
               key="applied"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-base relative overflow-hidden"
+              className="flex items-center gap-3 px-12 py-5 rounded-xl font-medium text-lg"
               style={{
-                background:
-                  "linear-gradient(145deg, rgba(104, 211, 145, 0.15) 0%, rgba(104, 211, 145, 0.05) 100%)",
-                border: "1px solid rgba(104, 211, 145, 0.3)",
+                background: "rgba(93, 212, 179, 0.1)",
+                border: "1px solid rgba(93, 212, 179, 0.3)",
                 color: "var(--accent-success)",
                 fontFamily: "var(--font-display)",
-                boxShadow:
-                  "0 0 30px rgba(104, 211, 145, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
               }}
-            >
-              {/* Success shimmer */}
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "200%" }}
-                transition={{ duration: 1.2, delay: 0.2 }}
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
-                }}
-              />
-
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
               >
-                <Check className="w-5 h-5" />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <Check className="w-6 h-6" />
+                </motion.div>
+                <span>Profile Applied</span>
               </motion.div>
-              <span className="relative z-10">Profile Applied!</span>
-
-              {/* Success star */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ delay: 0.4, type: "spring" }}
-                className="absolute -right-1 -top-1"
-              >
-                <Star
-                  className="w-4 h-4"
-                  style={{
-                    color: "var(--accent-warm)",
-                    fill: "var(--accent-warm)",
-                  }}
-                />
-              </motion.div>
-            </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Start Over Button */}
+        {/* Start Over */}
         <AnimatePresence>
           {showStartOver && (
-            <motion.div
+            <motion.button
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleStartOver}
+              className="flex items-center gap-2 px-8 py-3 rounded-lg font-medium text-base cursor-pointer"
+              style={{
+                fontFamily: "var(--font-display)",
+                background: "transparent",
+                color: "var(--text-muted)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+              }}
             >
-              <Button onClick={handleStartOver} variant="secondary">
-                <RotateCcw className="w-4 h-4" />
-                Start Over
-              </Button>
-            </motion.div>
+              <RotateCcw className="w-5 h-5" />
+              <span>Start Over</span>
+            </motion.button>
           )}
         </AnimatePresence>
       </motion.div>

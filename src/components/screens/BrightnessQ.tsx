@@ -1,29 +1,166 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sun, Eye, Sparkles } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { useWizard, BrightnessPreference } from "@/context/WizardContext";
-import Button from "@/components/ui/Button";
-import ProgressDots from "@/components/ui/ProgressDots";
 
-const brightnessOptions: {
-  value: BrightnessPreference;
-  icon: React.ReactNode;
-  label: string;
-  subtext: string;
-}[] = [
-  {
-    value: "bright",
-    icon: <Sun className="w-12 h-12" strokeWidth={1.5} />,
-    label: "Bright & Bold",
-    subtext: "Maximum clarity and pop",
-  },
-  {
-    value: "comfortable",
-    icon: <Eye className="w-12 h-12" strokeWidth={1.5} />,
-    label: "Easy on the Eyes",
-    subtext: "Relaxed, comfortable viewing",
-  },
+// TV-style progress bar
+function ProgressBar({ current, total }: { current: number; total: number }) {
+  return (
+    <div className="flex gap-3">
+      {Array.from({ length: total }, (_, i) => (
+        <div
+          key={i}
+          className="h-1.5 rounded-full transition-all duration-300"
+          style={{
+            width: i + 1 === current ? "44px" : "22px",
+            background:
+              i + 1 <= current
+                ? "var(--accent-primary)"
+                : "rgba(255, 255, 255, 0.1)",
+            boxShadow:
+              i + 1 === current
+                ? "0 0 8px var(--accent-primary-glow)"
+                : "none",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Bright visual - high contrast, vibrant
+function BrightVisual({ isSelected }: { isSelected: boolean }) {
+  return (
+    <div className="relative w-full h-full overflow-hidden rounded-xl">
+      {/* Bright background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(145deg, #1a2840 0%, #0f1a2d 50%, #162236 100%)",
+        }}
+      />
+
+      {/* Bright central element */}
+      <motion.div
+        animate={
+          isSelected
+            ? {
+                boxShadow: [
+                  "0 0 40px rgba(255, 255, 255, 0.3), 0 0 80px rgba(255, 255, 255, 0.1)",
+                  "0 0 60px rgba(255, 255, 255, 0.5), 0 0 100px rgba(255, 255, 255, 0.2)",
+                  "0 0 40px rgba(255, 255, 255, 0.3), 0 0 80px rgba(255, 255, 255, 0.1)",
+                ],
+              }
+            : {}
+        }
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full"
+        style={{
+          background: "radial-gradient(circle, #ffffff 0%, #e0e7ff 40%, rgba(224, 231, 255, 0.5) 70%, transparent 100%)",
+          boxShadow: "0 0 40px rgba(255, 255, 255, 0.3), 0 0 80px rgba(255, 255, 255, 0.1)",
+        }}
+      />
+
+      {/* Light rays */}
+      {isSelected && (
+        <div className="absolute inset-0">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute top-1/2 left-1/2 w-0.5 origin-bottom"
+              style={{
+                height: "80px",
+                background: "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%)",
+                transform: `translate(-50%, -100%) rotate(${i * 30}deg)`,
+              }}
+              animate={{ opacity: [0.3, 0.6, 0.3] }}
+              transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* High contrast overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(circle at center, transparent 30%, rgba(15, 26, 45, 0.4) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
+// Comfortable visual - softer, warmer
+function ComfortableVisual({ isSelected }: { isSelected: boolean }) {
+  return (
+    <div className="relative w-full h-full overflow-hidden rounded-xl">
+      {/* Dim, warm background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(145deg, #1a1714 0%, #0d0b09 50%, #141210 100%)",
+        }}
+      />
+
+      {/* Soft warm glow */}
+      <motion.div
+        animate={
+          isSelected
+            ? {
+                opacity: [0.6, 0.8, 0.6],
+                scale: [1, 1.05, 1],
+              }
+            : {}
+        }
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(240, 198, 116, 0.4) 0%, rgba(240, 198, 116, 0.15) 40%, transparent 70%)",
+          filter: "blur(4px)",
+        }}
+      />
+
+      {/* Central soft element */}
+      <motion.div
+        animate={isSelected ? { scale: [1, 1.02, 1] } : {}}
+        transition={{ duration: 4, repeat: Infinity }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(240, 198, 116, 0.5) 0%, rgba(217, 176, 99, 0.3) 50%, transparent 100%)",
+          boxShadow: "0 0 30px rgba(240, 198, 116, 0.2)",
+        }}
+      />
+
+      {/* Warm ambient particles */}
+      {isSelected && (
+        <>
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full"
+              style={{
+                background: "rgba(240, 198, 116, 0.6)",
+                left: `${30 + (i % 3) * 20}%`,
+                top: `${30 + Math.floor(i / 3) * 30}%`,
+              }}
+              animate={{
+                opacity: [0.3, 0.7, 0.3],
+                y: [0, -5, 0],
+              }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
+            />
+          ))}
+        </>
+      )}
+    </div>
+  );
+}
+
+const brightnessOptions: { value: BrightnessPreference; label: string }[] = [
+  { value: "bright", label: "Bright" },
+  { value: "comfortable", label: "Comfortable" },
 ];
 
 export default function BrightnessQ() {
@@ -42,56 +179,32 @@ export default function BrightnessQ() {
 
   return (
     <div
-      className="w-full h-full flex flex-col items-center justify-center px-8 py-6 relative overflow-hidden"
+      className="w-full h-full flex flex-col items-center justify-center px-10 py-10 md:px-14 md:py-12 relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, var(--bg-screen) 0%, #010203 100%)",
+        background: "linear-gradient(180deg, #0a0c12 0%, var(--bg-screen) 100%)",
       }}
     >
-      {/* Background glow */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(52, 211, 153, 0.04) 0%, transparent 60%)",
-        }}
-      />
-
       {/* Question header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.6 }}
-        className="mb-10 text-center relative z-10"
+        transition={{ duration: 0.5 }}
+        className="mb-12 text-center relative z-10"
       >
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4"
-        >
-          <Sun className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-xs font-medium text-[--text-secondary] uppercase tracking-wider">
-            Brightness Level
-          </span>
-        </motion.div>
-
         <h2
-          className="text-3xl font-bold text-white"
+          className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          What feels more comfortable?
+          Brightness level?
         </h2>
       </motion.div>
 
-      {/* Options */}
+      {/* Visual options */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="flex gap-8 mb-10 relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="flex flex-wrap justify-center gap-6 md:gap-10 mb-12 relative z-10"
       >
         {brightnessOptions.map((option, index) => {
           const isSelected = answers.brightnessPreference === option.value;
@@ -100,106 +213,66 @@ export default function BrightnessQ() {
             <motion.button
               key={option.value}
               type="button"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 + index * 0.1, type: "spring", stiffness: 100 }}
-              whileHover={{ scale: 1.04, y: -4 }}
+              transition={{
+                delay: 0.15 + index * 0.1,
+                duration: 0.4,
+                ease: "easeOut",
+              }}
+              whileHover={{ scale: 1.03, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(option.value)}
-              className={`
-                w-[240px] h-[180px]
-                flex flex-col items-center justify-center gap-4
-                rounded-2xl cursor-pointer
-                transition-all duration-300 relative overflow-hidden
-                backdrop-blur-xl
-                ${
-                  isSelected
-                    ? "bg-[--accent-primary]/15 border-2 border-[--accent-primary] selection-glow"
-                    : "bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15]"
-                }
-              `}
+              className="relative group cursor-pointer w-[240px] h-[150px] sm:w-[300px] sm:h-[180px] lg:w-[360px] lg:h-[210px]"
             >
-              {/* Background gradient on selection */}
-              {isSelected && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%)",
-                  }}
-                />
+              {/* Visual */}
+              {option.value === "bright" ? (
+                <BrightVisual isSelected={isSelected} />
+              ) : (
+                <ComfortableVisual isSelected={isSelected} />
               )}
 
-              {/* Icon with glow effect for bright option */}
-              <motion.div
-                animate={
-                  option.value === "bright" && isSelected
-                    ? {
-                        filter: [
-                          "drop-shadow(0 0 8px rgba(56, 189, 248, 0.5))",
-                          "drop-shadow(0 0 20px rgba(56, 189, 248, 0.8))",
-                          "drop-shadow(0 0 8px rgba(56, 189, 248, 0.5))",
-                        ],
-                        transition: { repeat: Infinity, duration: 2 },
-                      }
-                    : {}
-                }
-                className={`relative z-10 transition-colors duration-300 ${
-                  isSelected ? "text-[--accent-primary]" : "text-[--text-secondary]"
-                }`}
-              >
-                {/* Icon glow */}
-                {isSelected && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="absolute inset-0 -m-4 rounded-full"
-                    style={{
-                      background:
-                        "radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%)",
-                      filter: "blur(10px)",
-                    }}
-                  />
-                )}
-                <div className="relative z-10">{option.icon}</div>
-              </motion.div>
-
+              {/* Selection ring */}
               <div
-                className={`text-lg font-semibold relative z-10 transition-colors duration-300 ${
-                  isSelected ? "text-white" : "text-[--text-primary]"
-                }`}
-                style={{ fontFamily: "var(--font-display)" }}
+                className="absolute inset-0 rounded-xl transition-all duration-300 pointer-events-none"
+                style={{
+                  border: isSelected
+                    ? "2px solid var(--accent-primary)"
+                    : "1px solid rgba(255, 255, 255, 0.1)",
+                  boxShadow: isSelected
+                    ? "0 0 24px rgba(94, 179, 228, 0.35)"
+                    : "none",
+                }}
+              />
+
+              {/* Label */}
+              <div
+                className="absolute bottom-0 left-0 right-0 p-4 rounded-b-xl"
+                style={{
+                  background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%)",
+                }}
               >
-                {option.label}
+                <span
+                  className="text-white font-medium text-base"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  {option.label}
+                </span>
               </div>
 
-              <div className="text-sm text-[--text-muted] text-center px-4 relative z-10">
-                {option.subtext}
-              </div>
-
-              {/* Selection checkmark */}
+              {/* Selection indicator */}
               {isSelected && (
                 <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[--accent-primary] flex items-center justify-center"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "var(--accent-primary)",
+                    boxShadow: "0 2px 8px rgba(94, 179, 228, 0.4)",
+                  }}
                 >
-                  <svg
-                    className="w-4 h-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={3}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <Check className="w-4 h-4 text-white" strokeWidth={3} />
                 </motion.div>
               )}
             </motion.button>
@@ -207,27 +280,44 @@ export default function BrightnessQ() {
         })}
       </motion.div>
 
-      {/* Next Button - Final step */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: canProceed ? 1 : 0.4, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.3 }}
-        className="mb-8 relative z-10"
-      >
-        <Button onClick={goToNext} disabled={!canProceed} variant="success">
-          <Sparkles className="w-4 h-4" />
-          See My Profile
-        </Button>
-      </motion.div>
-
-      {/* Progress Dots */}
+      {/* Final CTA Button */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.4 }}
+        className="mb-10 relative z-10"
+      >
+        <motion.button
+          whileHover={canProceed ? { scale: 1.02, y: -2 } : {}}
+          whileTap={canProceed ? { scale: 0.98 } : {}}
+          onClick={canProceed ? goToNext : undefined}
+          disabled={!canProceed}
+          className="group flex items-center gap-3 px-10 py-4 rounded-xl font-medium text-base cursor-pointer transition-all duration-300"
+          style={{
+            fontFamily: "var(--font-display)",
+            background: canProceed
+              ? "linear-gradient(135deg, var(--accent-success) 0%, #4bc4a0 100%)"
+              : "rgba(255, 255, 255, 0.05)",
+            color: canProceed ? "#ffffff" : "var(--text-muted)",
+            boxShadow: canProceed
+              ? "0 4px 20px rgba(93, 212, 179, 0.3)"
+              : "none",
+            opacity: canProceed ? 1 : 0.5,
+          }}
+        >
+          <Sparkles className="w-5 h-5" />
+          <span>See My Profile</span>
+        </motion.button>
+      </motion.div>
+
+      {/* Progress Bar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
         className="relative z-10"
       >
-        <ProgressDots currentStep={stepNumber} totalSteps={totalQuestions} />
+        <ProgressBar current={stepNumber} total={totalQuestions} />
       </motion.div>
     </div>
   );

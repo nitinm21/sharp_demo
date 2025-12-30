@@ -1,7 +1,6 @@
 import { WizardAnswers, ContentType } from "@/context/WizardContext";
 
 export interface ProfileSetting {
-  icon: string;
   label: string;
 }
 
@@ -16,122 +15,121 @@ export const profiles: Record<string, Profile> = {
     name: "Cinema Night Mode",
     description: "Optimized for movies in a dark room",
     settings: [
-      { icon: "🎬", label: "Cinema Mode" },
-      { icon: "🌙", label: "Low Brightness" },
-      { icon: "🎨", label: "Natural Colors" },
-      { icon: "🎞️", label: "Cinematic Motion" },
-      { icon: "🔥", label: "Warm Tone" },
+      { label: "Cinema Mode" },
+      { label: "Low Brightness" },
+      { label: "Natural Colors" },
+      { label: "Cinematic Motion" },
+      { label: "Warm Tone" },
     ],
   },
   "Cinema Vivid Mode": {
     name: "Cinema Vivid Mode",
     description: "Optimized for movies in a bright room",
     settings: [
-      { icon: "🎬", label: "Cinema Mode" },
-      { icon: "☀️", label: "High Brightness" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "🎞️", label: "Cinematic Motion" },
-      { icon: "⚪", label: "Neutral Tone" },
+      { label: "Cinema Mode" },
+      { label: "High Brightness" },
+      { label: "Vivid Colors" },
+      { label: "Cinematic Motion" },
+      { label: "Neutral Tone" },
     ],
   },
   "Sports Arena Mode": {
     name: "Sports Arena Mode",
     description: "Optimized for fast action and clarity",
     settings: [
-      { icon: "⚽", label: "Sports Mode" },
-      { icon: "☀️", label: "High Brightness" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "🌊", label: "Smooth Motion" },
-      { icon: "❄️", label: "Cool Tone" },
+      { label: "Sports Mode" },
+      { label: "High Brightness" },
+      { label: "Vivid Colors" },
+      { label: "Smooth Motion" },
+      { label: "Cool Tone" },
     ],
   },
   "Sports Night Mode": {
     name: "Sports Night Mode",
     description: "Sports viewing comfortable for evening",
     settings: [
-      { icon: "⚽", label: "Sports Mode" },
-      { icon: "🌙", label: "Medium Brightness" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "🌊", label: "Smooth Motion" },
-      { icon: "⚪", label: "Neutral Tone" },
+      { label: "Sports Mode" },
+      { label: "Medium Brightness" },
+      { label: "Vivid Colors" },
+      { label: "Smooth Motion" },
+      { label: "Neutral Tone" },
     ],
   },
   "Game Zone Pro": {
     name: "Game Zone Pro",
     description: "Maximum responsiveness for competitive gaming",
     settings: [
-      { icon: "🎮", label: "Game Mode" },
-      { icon: "⚡", label: "Low Latency" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "☀️", label: "High Brightness" },
-      { icon: "❄️", label: "Cool Tone" },
+      { label: "Game Mode" },
+      { label: "Low Latency" },
+      { label: "Vivid Colors" },
+      { label: "High Brightness" },
+      { label: "Cool Tone" },
     ],
   },
   "Game Zone Night": {
     name: "Game Zone Night",
     description: "Gaming optimized for dark room comfort",
     settings: [
-      { icon: "🎮", label: "Game Mode" },
-      { icon: "⚡", label: "Low Latency" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "🌙", label: "Low Brightness" },
-      { icon: "⚪", label: "Neutral Tone" },
+      { label: "Game Mode" },
+      { label: "Low Latency" },
+      { label: "Vivid Colors" },
+      { label: "Low Brightness" },
+      { label: "Neutral Tone" },
     ],
   },
   "Everyday Comfort": {
     name: "Everyday Comfort",
     description: "Balanced settings for all-day viewing",
     settings: [
-      { icon: "📺", label: "Standard Mode" },
-      { icon: "👁️", label: "Easy Brightness" },
-      { icon: "🎨", label: "Natural Colors" },
-      { icon: "🎞️", label: "Cinematic Motion" },
-      { icon: "🔥", label: "Warm Tone" },
+      { label: "Standard Mode" },
+      { label: "Easy Brightness" },
+      { label: "Natural Colors" },
+      { label: "Cinematic Motion" },
+      { label: "Warm Tone" },
     ],
   },
   "Everyday Vivid": {
     name: "Everyday Vivid",
     description: "Dynamic settings for mixed content",
     settings: [
-      { icon: "📺", label: "Dynamic Mode" },
-      { icon: "☀️", label: "High Brightness" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "🌊", label: "Smooth Motion" },
-      { icon: "⚪", label: "Neutral Tone" },
+      { label: "Dynamic Mode" },
+      { label: "High Brightness" },
+      { label: "Vivid Colors" },
+      { label: "Smooth Motion" },
+      { label: "Neutral Tone" },
     ],
   },
-  // Hybrid profiles for multi-select scenarios
   "Sports & Movies Mode": {
     name: "Sports & Movies Mode",
     description: "Best of both worlds for action and cinema",
     settings: [
-      { icon: "🎬", label: "Adaptive Mode" },
-      { icon: "🌊", label: "Smooth Motion" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "👁️", label: "Balanced Brightness" },
-      { icon: "⚪", label: "Neutral Tone" },
+      { label: "Adaptive Mode" },
+      { label: "Smooth Motion" },
+      { label: "Vivid Colors" },
+      { label: "Balanced Brightness" },
+      { label: "Neutral Tone" },
     ],
   },
   "Gaming & Sports Mode": {
     name: "Gaming & Sports Mode",
     description: "Optimized for fast-paced action",
     settings: [
-      { icon: "⚡", label: "Low Latency" },
-      { icon: "🌊", label: "Smooth Motion" },
-      { icon: "✨", label: "Vivid Colors" },
-      { icon: "☀️", label: "High Brightness" },
-      { icon: "❄️", label: "Cool Tone" },
+      { label: "Low Latency" },
+      { label: "Smooth Motion" },
+      { label: "Vivid Colors" },
+      { label: "High Brightness" },
+      { label: "Cool Tone" },
     ],
   },
   "Entertainment Hub": {
     name: "Entertainment Hub",
     description: "Versatile settings for varied content",
     settings: [
-      { icon: "📺", label: "Smart Mode" },
-      { icon: "🎨", label: "Adaptive Colors" },
-      { icon: "🌊", label: "Smooth Motion" },
-      { icon: "👁️", label: "Auto Brightness" },
-      { icon: "⚪", label: "Neutral Tone" },
+      { label: "Smart Mode" },
+      { label: "Adaptive Colors" },
+      { label: "Smooth Motion" },
+      { label: "Auto Brightness" },
+      { label: "Neutral Tone" },
     ],
   },
 };
@@ -140,7 +138,6 @@ export const profiles: Record<string, Profile> = {
 const contentPriority: ContentType[] = ["gaming", "sports", "movies", "general"];
 
 function getPrimaryContentType(contentTypes: ContentType[]): ContentType {
-  // Return the highest priority content type from the selection
   for (const priority of contentPriority) {
     if (contentTypes.includes(priority)) {
       return priority;
