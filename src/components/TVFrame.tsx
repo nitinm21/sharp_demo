@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface TVFrameProps {
@@ -8,6 +8,17 @@ interface TVFrameProps {
 }
 
 export default function TVFrame({ children }: TVFrameProps) {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
   return (
     <div
       className="min-h-screen h-screen w-full relative overflow-hidden"
@@ -21,23 +32,24 @@ export default function TVFrame({ children }: TVFrameProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 2 }}
           className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[1000px] h-[600px]"
           style={{
             background:
               "radial-gradient(ellipse at center, rgba(99, 179, 237, 0.12) 0%, rgba(99, 179, 237, 0.04) 40%, transparent 70%)",
             filter: "blur(80px)",
+            willChange: "opacity",
           }}
         />
 
         {/* Purple accent - left side */}
         <motion.div
-          animate={{
+          animate={prefersReducedMotion ? { opacity: 0.4 } : {
             opacity: [0.3, 0.5, 0.3],
             scale: [1, 1.15, 1],
             x: [-20, 0, -20],
           }}
-          transition={{
+          transition={prefersReducedMotion ? {} : {
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
@@ -47,17 +59,18 @@ export default function TVFrame({ children }: TVFrameProps) {
             background:
               "radial-gradient(circle, rgba(183, 148, 244, 0.18) 0%, transparent 60%)",
             filter: "blur(100px)",
+            willChange: prefersReducedMotion ? "auto" : "transform, opacity",
           }}
         />
 
         {/* Warm accent - right side */}
         <motion.div
-          animate={{
+          animate={prefersReducedMotion ? { opacity: 0.35 } : {
             opacity: [0.25, 0.45, 0.25],
             scale: [1, 1.2, 1],
             x: [20, 0, 20],
           }}
-          transition={{
+          transition={prefersReducedMotion ? {} : {
             duration: 12,
             repeat: Infinity,
             ease: "easeInOut",
@@ -68,6 +81,7 @@ export default function TVFrame({ children }: TVFrameProps) {
             background:
               "radial-gradient(circle, rgba(246, 224, 94, 0.12) 0%, transparent 60%)",
             filter: "blur(100px)",
+            willChange: prefersReducedMotion ? "auto" : "transform, opacity",
           }}
         />
       </div>

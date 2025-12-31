@@ -13,22 +13,22 @@ const contentOptions: {
   {
     value: "movies",
     label: "Movies",
-    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=300&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&q=80",
   },
   {
     value: "sports",
     label: "Sports",
-    image: "https://images.unsplash.com/photo-1461896836934-ber5lcruj346?w=400&h=300&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&h=600&fit=crop&q=80",
   },
   {
     value: "gaming",
     label: "Gaming",
-    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop&q=80",
   },
   {
     value: "general",
-    label: "General",
-    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=300&fit=crop&q=80",
+    label: "General / Mixed",
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&h=600&fit=crop&q=80",
   },
 ];
 
@@ -85,7 +85,7 @@ export default function ContentTypeQ() {
           className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          What do you watch?
+          What do you watch most? (Select all that apply)
         </h2>
       </motion.div>
 
@@ -94,7 +94,7 @@ export default function ContentTypeQ() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 relative z-10"
+        className="grid grid-cols-2 gap-5 md:gap-6 mb-12 relative z-10"
       >
         {contentOptions.map((option, index) => {
           const isSelected = answers.contentTypes.includes(option.value);
@@ -113,7 +113,7 @@ export default function ContentTypeQ() {
               whileHover={{ scale: 1.03, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => toggleContentType(option.value)}
-              className="relative group cursor-pointer rounded-xl overflow-hidden w-[200px] h-[130px] sm:w-[220px] sm:h-[150px] lg:w-[260px] lg:h-[170px]"
+              className="relative group cursor-pointer rounded-2xl overflow-hidden w-[280px] h-[180px] sm:w-[320px] sm:h-[200px] md:w-[380px] md:h-[240px] lg:w-[420px] lg:h-[280px]"
             >
               {/* Image */}
               <div className="absolute inset-0">
@@ -122,7 +122,9 @@ export default function ContentTypeQ() {
                   alt={option.label}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(min-width: 1024px) 260px, (min-width: 640px) 220px, 200px"
+                  sizes="(min-width: 1024px) 420px, (min-width: 768px) 380px, (min-width: 640px) 320px, 280px"
+                  loading={index < 2 ? "eager" : "lazy"}
+                  quality={75}
                 />
                 {/* Gradient overlay */}
                 <div
@@ -137,7 +139,7 @@ export default function ContentTypeQ() {
 
               {/* Selection ring */}
               <div
-                className="absolute inset-0 rounded-xl transition-all duration-300 pointer-events-none"
+                className="absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none"
                 style={{
                   border: isSelected
                     ? "2px solid var(--accent-primary)"
@@ -149,9 +151,9 @@ export default function ContentTypeQ() {
               />
 
               {/* Label */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
+              <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
                 <span
-                  className="text-white font-medium text-base"
+                  className="text-white font-medium text-lg md:text-xl"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {option.label}
@@ -165,13 +167,13 @@ export default function ContentTypeQ() {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center"
+                  className="absolute top-4 right-4 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center"
                   style={{
                     background: "var(--accent-primary)",
                     boxShadow: "0 2px 8px rgba(94, 179, 228, 0.4)",
                   }}
                 >
-                  <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  <Check className="w-4 h-4 md:w-5 md:h-5 text-white" strokeWidth={3} />
                 </motion.div>
               )}
             </motion.button>

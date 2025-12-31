@@ -1,15 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWizard } from "@/context/WizardContext";
 import TVFrame from "./TVFrame";
-import WelcomeScreen from "./screens/WelcomeScreen";
-import ContentTypeQ from "./screens/ContentTypeQ";
-import ViewingTimeQ from "./screens/ViewingTimeQ";
-import ColorPreferenceQ from "./screens/ColorPreferenceQ";
-import MotionPreferenceQ from "./screens/MotionPreferenceQ";
-import BrightnessQ from "./screens/BrightnessQ";
-import ResultsScreen from "./screens/ResultsScreen";
+
+// Dynamic imports for code splitting - screens load instantly without spinner
+const WelcomeScreen = dynamic(() => import("./screens/WelcomeScreen"), { ssr: false });
+const ContentTypeQ = dynamic(() => import("./screens/ContentTypeQ"), { ssr: false });
+const ViewingTimeQ = dynamic(() => import("./screens/ViewingTimeQ"), { ssr: false });
+const ColorPreferenceQ = dynamic(() => import("./screens/ColorPreferenceQ"), { ssr: false });
+const MotionPreferenceQ = dynamic(() => import("./screens/MotionPreferenceQ"), { ssr: false });
+const BrightnessQ = dynamic(() => import("./screens/BrightnessQ"), { ssr: false });
+const ResultsScreen = dynamic(() => import("./screens/ResultsScreen"), { ssr: false });
 
 const screenVariants = {
   initial: {

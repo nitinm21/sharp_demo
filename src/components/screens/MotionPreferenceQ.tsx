@@ -29,117 +29,153 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
   );
 }
 
-// Smooth motion visual - flowing waves
-function SmoothVisual({ isSelected }: { isSelected: boolean }) {
+// Clear motion visual - crisp trails and speed lines
+function ClearMotionVisual({ isSelected }: { isSelected: boolean }) {
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-xl bg-gradient-to-br from-[#0c1929] to-[#0a1220]">
-      {/* Animated flowing lines */}
-      {[...Array(5)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute h-0.5 rounded-full"
-          style={{
-            width: "120%",
-            left: "-10%",
-            top: `${25 + i * 12}%`,
-            background: `linear-gradient(90deg, transparent 0%, rgba(94, 179, 228, ${0.2 + i * 0.1}) 30%, rgba(94, 179, 228, ${0.4 + i * 0.1}) 50%, rgba(94, 179, 228, ${0.2 + i * 0.1}) 70%, transparent 100%)`,
-          }}
-          animate={
-            isSelected
-              ? {
-                  x: ["-10%", "10%", "-10%"],
-                  scaleY: [1, 1.5, 1],
-                }
-              : {}
-          }
-          transition={{
-            duration: 2 + i * 0.3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.15,
-          }}
-        />
-      ))}
-
-      {/* Ambient glow */}
-      <motion.div
-        animate={isSelected ? { opacity: [0.3, 0.5, 0.3] } : { opacity: 0.2 }}
-        transition={{ duration: 3, repeat: Infinity }}
+    <div className="relative w-full h-full overflow-hidden rounded-xl">
+      <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(94, 179, 228, 0.15) 0%, transparent 60%)",
+          background: "linear-gradient(145deg, #0b1c2c 0%, #0b1424 55%, #0a0f1b 100%)",
         }}
       />
+      <div
+        className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(94, 179, 228, 0.18) 0.5px, transparent 0.5px)",
+          backgroundSize: "100% 18px",
+        }}
+      />
+      <motion.div
+        animate={isSelected ? { opacity: [0.2, 0.45, 0.2] } : { opacity: 0.2 }}
+        transition={{ duration: 2.8, repeat: Infinity }}
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(ellipse at 70% 40%, rgba(94, 179, 228, 0.35) 0%, transparent 55%)",
+        }}
+      />
+      <div className="absolute left-8 top-1/2 -translate-y-1/2">
+        <motion.div
+          animate={isSelected ? { x: [0, 28, 0] } : {}}
+          transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          className="relative"
+        >
+          <div
+            className="absolute -left-10 w-12 h-8 rounded-full"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(94, 179, 228, 0) 0%, rgba(94, 179, 228, 0.25) 100%)",
+              filter: "blur(6px)",
+            }}
+          />
+          <div
+            className="absolute -left-5 w-14 h-9 rounded-full"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(94, 179, 228, 0.1) 0%, rgba(94, 179, 228, 0.45) 100%)",
+              filter: "blur(3px)",
+            }}
+          />
+          <div
+            className="relative w-20 h-10 rounded-full"
+            style={{
+              background: "linear-gradient(135deg, #6bc1ef 0%, #3f88bd 100%)",
+              boxShadow: "0 0 18px rgba(94, 179, 228, 0.5)",
+            }}
+          />
+        </motion.div>
+      </div>
     </div>
   );
 }
 
-// Cinematic motion visual - film frames
-function CinematicVisual({ isSelected }: { isSelected: boolean }) {
+// Original motion visual - discrete frames and cadence markers
+function OriginalMotionVisual({ isSelected }: { isSelected: boolean }) {
+  const dotPositions = [25, 50, 75];
+
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-xl bg-gradient-to-br from-[#0c1929] to-[#0a1220]">
-      {/* Film frames */}
-      <div className="absolute inset-4 flex gap-2">
-        {[...Array(4)].map((_, i) => (
+    <div className="relative w-full h-full overflow-hidden rounded-xl">
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(145deg, #171925 0%, #10131d 55%, #0a0b12 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(ellipse at 20% 20%, rgba(167, 139, 250, 0.18) 0%, transparent 55%)",
+        }}
+      />
+      <div className="absolute inset-6 rounded-lg border border-white/10" />
+      <div className="absolute inset-0 flex items-center justify-center gap-5 px-10">
+        {dotPositions.map((left, index) => (
           <motion.div
-            key={i}
-            className="flex-1 rounded-lg overflow-hidden relative"
-            style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-            }}
-            animate={
-              isSelected
-                ? {
-                    opacity: [0.6, 1, 0.6],
-                    scale: [0.98, 1, 0.98],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              delay: i * 0.3,
-            }}
+            key={left}
+            animate={isSelected ? { opacity: [0.5, 1, 0.5] } : { opacity: 0.7 }}
+            transition={{ duration: 2.4, repeat: Infinity, delay: index * 0.2 }}
+            className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg border border-white/10 bg-white/[0.04]"
           >
-            {/* Frame content gradient */}
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(${135 + i * 20}deg, rgba(167, 139, 250, 0.1) 0%, rgba(94, 179, 228, 0.1) 100%)`,
+                background: "linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, transparent 60%)",
               }}
             />
-            {/* Sprocket holes indicator */}
-            <div className="absolute left-0 top-0 bottom-0 w-1.5 flex flex-col justify-between py-1">
-              {[...Array(4)].map((_, j) => (
-                <div
-                  key={j}
-                  className="w-1 h-1 rounded-full bg-white/20 mx-auto"
-                />
-              ))}
+            <div
+              className="absolute bottom-3 -translate-x-1/2"
+              style={{ left: `${left}%` }}
+            >
+              <motion.div
+                animate={isSelected ? { y: [0, -2, 0] } : {}}
+                transition={{ duration: 1.8, repeat: Infinity, delay: index * 0.2 }}
+                className="w-4 h-4 rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, #d8b4fe 0%, #9f7aea 100%)",
+                  boxShadow: "0 0 12px rgba(167, 139, 250, 0.45)",
+                }}
+              />
             </div>
           </motion.div>
         ))}
       </div>
-
-      {/* Film grain overlay */}
-      {isSelected && (
-        <motion.div
-          animate={{ opacity: [0.02, 0.04, 0.02] }}
-          transition={{ duration: 0.1, repeat: Infinity }}
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }}
-        />
-      )}
+      <motion.div
+        animate={isSelected ? { opacity: [0.35, 0.6, 0.35] } : { opacity: 0.35 }}
+        transition={{ duration: 2.6, repeat: Infinity }}
+        className="absolute bottom-5 left-6 right-6 flex items-center gap-1"
+      >
+        {Array.from({ length: 12 }).map((_, i) => (
+          <div
+            key={i}
+            className="rounded-full"
+            style={{
+              height: "3px",
+              width: i % 3 === 0 ? "18px" : "8px",
+              background: "rgba(255, 255, 255, 0.2)",
+            }}
+          />
+        ))}
+      </motion.div>
     </div>
   );
 }
 
-const motionOptions: { value: MotionPreference; label: string }[] = [
-  { value: "smooth", label: "Smooth" },
-  { value: "cinematic", label: "Cinematic" },
+const motionOptions: {
+  value: MotionPreference;
+  label: string;
+  description: string;
+}[] = [
+  {
+    value: "smooth",
+    label: "Clear motion",
+    description: "Smoother, less blur.",
+  },
+  {
+    value: "cinematic",
+    label: "Original motion",
+    description: "Cinematic pacing.",
+  },
 ];
 
 export default function MotionPreferenceQ() {
@@ -174,7 +210,7 @@ export default function MotionPreferenceQ() {
           className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          Motion style?
+          Do you want smoother motion or a cinematic look?
         </h2>
       </motion.div>
 
@@ -202,13 +238,13 @@ export default function MotionPreferenceQ() {
               whileHover={{ scale: 1.03, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(option.value)}
-              className="relative group cursor-pointer w-[240px] h-[150px] sm:w-[300px] sm:h-[180px] lg:w-[360px] lg:h-[210px]"
+              className="relative group cursor-pointer w-[280px] h-[180px] sm:w-[320px] sm:h-[210px] md:w-[380px] md:h-[240px] xl:w-[420px] xl:h-[280px]"
             >
               {/* Visual */}
               {option.value === "smooth" ? (
-                <SmoothVisual isSelected={isSelected} />
+                <ClearMotionVisual isSelected={isSelected} />
               ) : (
-                <CinematicVisual isSelected={isSelected} />
+                <OriginalMotionVisual isSelected={isSelected} />
               )}
 
               {/* Selection ring */}
@@ -226,17 +262,28 @@ export default function MotionPreferenceQ() {
 
               {/* Label */}
               <div
-                className="absolute bottom-0 left-0 right-0 p-4 rounded-b-xl"
+                className="absolute bottom-0 left-0 right-0 p-5 md:p-6 rounded-b-xl"
                 style={{
                   background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%)",
                 }}
               >
-                <span
-                  className="text-white font-medium text-base"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  {option.label}
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span
+                    className="text-white font-medium text-lg md:text-xl"
+                    style={{ fontFamily: "var(--font-display)" }}
+                  >
+                    {option.label}
+                  </span>
+                  <span
+                    className="text-xs md:text-sm leading-snug"
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      color: "var(--text-secondary)",
+                    }}
+                  >
+                    {option.description}
+                  </span>
+                </div>
               </div>
 
               {/* Selection indicator */}
@@ -245,13 +292,13 @@ export default function MotionPreferenceQ() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center"
+                  className="absolute top-3 right-3 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center"
                   style={{
                     background: "var(--accent-primary)",
                     boxShadow: "0 2px 8px rgba(94, 179, 228, 0.4)",
                   }}
                 >
-                  <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  <Check className="w-4 h-4 md:w-5 md:h-5 text-white" strokeWidth={3} />
                 </motion.div>
               )}
             </motion.button>

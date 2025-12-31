@@ -91,8 +91,8 @@
   --color-accent-success: var(--accent-success);
   --color-border-card: var(--border-card);
   --color-border-selected: var(--border-selected);
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
+  --font-display: var(--font-geist);
+  --font-body: var(--font-geist);
 }
 
 * {

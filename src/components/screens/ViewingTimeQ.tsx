@@ -34,38 +34,38 @@ function TimeVisual({ type, isSelected }: { type: ViewingTime; isSelected: boole
   if (type === "daytime") {
     return (
       <div className="relative w-full h-full overflow-hidden rounded-xl">
-        {/* Warm gradient background */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(145deg, #fef9c3 0%, #fde047 30%, #facc15 60%, #eab308 100%)",
+            background: "linear-gradient(145deg, #fff2b1 0%, #fbd34d 35%, #f59e0b 70%, #d97706 100%)",
           }}
         />
-        {/* Sun representation */}
         <motion.div
-          animate={isSelected ? { scale: [1, 1.1, 1], opacity: [0.9, 1, 0.9] } : {}}
-          transition={{ duration: 3, repeat: Infinity }}
-        className="absolute top-6 right-6 w-14 h-14 rounded-full"
+          animate={isSelected ? { opacity: [0.25, 0.45, 0.25] } : { opacity: 0.25 }}
+          transition={{ duration: 3.2, repeat: Infinity }}
+          className="absolute inset-0"
           style={{
-            background: "radial-gradient(circle, #ffffff 0%, #fef08a 60%, transparent 100%)",
-            boxShadow: "0 0 40px rgba(254, 240, 138, 0.8)",
+            background: "radial-gradient(circle at 65% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 55%)",
           }}
         />
-        {/* Light rays */}
-        <div className="absolute inset-0 opacity-30">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute top-6 right-6 w-0.5 h-24 origin-bottom"
-              style={{
-                background: "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)",
-                transform: `rotate(${i * 45}deg)`,
-              }}
-              animate={isSelected ? { opacity: [0.3, 0.6, 0.3] } : {}}
-              transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
-            />
-          ))}
-        </div>
+        <motion.div
+          animate={isSelected ? { y: [-2, 2, -2] } : {}}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-6 right-8 w-16 h-16 rounded-full"
+          style={{
+            background: "radial-gradient(circle, #ffffff 0%, #fef3c7 55%, transparent 70%)",
+            boxShadow: "0 0 40px rgba(254, 215, 170, 0.8)",
+          }}
+        />
+        <motion.div
+          animate={isSelected ? { x: [-6, 6, -6], opacity: [0.2, 0.35, 0.2] } : { opacity: 0.2 }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-6 bottom-8 right-20 h-8 rounded-full"
+          style={{
+            background: "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0) 100%)",
+            filter: "blur(6px)",
+          }}
+        />
       </div>
     );
   }
@@ -73,80 +73,80 @@ function TimeVisual({ type, isSelected }: { type: ViewingTime; isSelected: boole
   if (type === "nighttime") {
     return (
       <div className="relative w-full h-full overflow-hidden rounded-xl">
-        {/* Deep blue gradient */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(145deg, #0f172a 0%, #1e1b4b 30%, #312e81 60%, #3730a3 100%)",
+            background: "linear-gradient(145deg, #0f172a 0%, #1e1b4b 35%, #312e81 70%, #1e1b4b 100%)",
           }}
         />
-        {/* Moon */}
         <motion.div
-          animate={isSelected ? { scale: [1, 1.05, 1] } : {}}
+          animate={isSelected ? { opacity: [0.15, 0.3, 0.15] } : { opacity: 0.15 }}
           transition={{ duration: 4, repeat: Infinity }}
-        className="absolute top-6 right-8 w-12 h-12 rounded-full"
+          className="absolute inset-0"
           style={{
-            background: "linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)",
-            boxShadow: "0 0 30px rgba(203, 213, 225, 0.4)",
+            background: "radial-gradient(circle at 30% 20%, rgba(129, 140, 248, 0.35) 0%, transparent 55%)",
           }}
         />
-        {/* Stars */}
-        {[...Array(12)].map((_, i) => (
+        <motion.div
+          animate={isSelected ? { scale: [1, 1.03, 1] } : {}}
+          transition={{ duration: 4.8, repeat: Infinity }}
+          className="absolute top-6 right-8 w-14 h-14 rounded-full"
+          style={{
+            background: "linear-gradient(135deg, #e2e8f0 0%, #cbd5f5 100%)",
+            boxShadow: "0 0 32px rgba(203, 213, 225, 0.45)",
+          }}
+        />
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1.5 h-1.5 rounded-full"
             style={{
               background: "#ffffff",
-              left: `${10 + (i % 4) * 25}%`,
-              top: `${15 + Math.floor(i / 4) * 25}%`,
-              boxShadow: "0 0 4px rgba(255, 255, 255, 0.8)",
+              left: `${12 + (i % 4) * 22}%`,
+              top: `${18 + Math.floor(i / 4) * 28}%`,
+              boxShadow: "0 0 6px rgba(255, 255, 255, 0.8)",
             }}
-            animate={isSelected ? { opacity: [0.4, 1, 0.4] } : { opacity: 0.6 }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
+            animate={isSelected ? { opacity: [0.4, 0.9, 0.4] } : { opacity: 0.65 }}
+            transition={{ duration: 2.8, repeat: Infinity, delay: i * 0.2 }}
           />
         ))}
       </div>
     );
   }
 
-  // Both
   return (
     <div className="relative w-full h-full overflow-hidden rounded-xl">
-      {/* Split gradient */}
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, #fef08a 0%, #facc15 30%, #6366f1 70%, #312e81 100%)",
+          background: "linear-gradient(135deg, #fde68a 0%, #f59e0b 30%, #6366f1 70%, #312e81 100%)",
         }}
       />
-      {/* Center blend */}
       <motion.div
-        animate={isSelected ? { opacity: [0.5, 0.7, 0.5] } : {}}
-        transition={{ duration: 4, repeat: Infinity }}
+        animate={isSelected ? { x: [-10, 10, -10], opacity: [0.25, 0.45, 0.25] } : { opacity: 0.25 }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.2) 0%, transparent 60%)",
+          background: "radial-gradient(ellipse at center, rgba(255, 255, 255, 0.25) 0%, transparent 60%)",
         }}
       />
-      {/* Sun side */}
       <motion.div
-        className="absolute top-4 left-4 w-10 h-10 rounded-full"
+        animate={isSelected ? { y: [-2, 2, -2] } : {}}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-5 left-6 w-11 h-11 rounded-full"
         style={{
-          background: "radial-gradient(circle, #ffffff 0%, #fef08a 100%)",
-          boxShadow: "0 0 20px rgba(254, 240, 138, 0.6)",
+          background: "radial-gradient(circle, #ffffff 0%, #fde68a 70%, transparent 100%)",
+          boxShadow: "0 0 20px rgba(253, 230, 138, 0.7)",
         }}
-        animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
-        transition={{ duration: 3, repeat: Infinity }}
       />
-      {/* Moon side */}
       <motion.div
-        className="absolute bottom-4 right-4 w-8 h-8 rounded-full"
+        animate={isSelected ? { y: [2, -2, 2] } : {}}
+        transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-5 right-6 w-9 h-9 rounded-full"
         style={{
           background: "linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%)",
-          boxShadow: "0 0 15px rgba(148, 163, 184, 0.5)",
+          boxShadow: "0 0 16px rgba(148, 163, 184, 0.6)",
         }}
-        animate={isSelected ? { scale: [1, 1.08, 1] } : {}}
-        transition={{ duration: 3.5, repeat: Infinity }}
       />
     </div>
   );
@@ -218,7 +218,7 @@ export default function ViewingTimeQ() {
               whileHover={{ scale: 1.03, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(option.value)}
-              className="relative group cursor-pointer w-[220px] h-[150px] sm:w-[240px] sm:h-[165px] lg:w-[280px] lg:h-[190px]"
+              className="relative group cursor-pointer w-[240px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[320px] md:h-[210px] xl:w-[380px] xl:h-[240px]"
             >
               {/* Visual background */}
               <TimeVisual type={option.value} isSelected={isSelected} />
@@ -238,13 +238,13 @@ export default function ViewingTimeQ() {
 
               {/* Label */}
               <div
-                className="absolute bottom-0 left-0 right-0 p-4 rounded-b-xl"
+                className="absolute bottom-0 left-0 right-0 p-5 md:p-6 rounded-b-xl"
                 style={{
                   background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%)",
                 }}
               >
                 <span
-                  className="text-white font-medium text-base"
+                  className="text-white font-medium text-lg md:text-xl"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {option.label}
@@ -257,13 +257,13 @@ export default function ViewingTimeQ() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center"
+                  className="absolute top-3 right-3 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center"
                   style={{
                     background: "var(--accent-primary)",
                     boxShadow: "0 2px 8px rgba(94, 179, 228, 0.4)",
                   }}
                 >
-                  <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  <Check className="w-4 h-4 md:w-5 md:h-5 text-white" strokeWidth={3} />
                 </motion.div>
               )}
             </motion.button>

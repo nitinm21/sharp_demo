@@ -159,8 +159,8 @@ function ComfortableVisual({ isSelected }: { isSelected: boolean }) {
 }
 
 const brightnessOptions: { value: BrightnessPreference; label: string }[] = [
-  { value: "bright", label: "Bright" },
-  { value: "comfortable", label: "Comfortable" },
+  { value: "bright", label: "Punchy & bright" },
+  { value: "comfortable", label: "Soft & comfortable" },
 ];
 
 export default function BrightnessQ() {
@@ -195,7 +195,7 @@ export default function BrightnessQ() {
           className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          Brightness level?
+          How should the picture feel?
         </h2>
       </motion.div>
 
@@ -223,7 +223,7 @@ export default function BrightnessQ() {
               whileHover={{ scale: 1.03, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(option.value)}
-              className="relative group cursor-pointer w-[240px] h-[150px] sm:w-[300px] sm:h-[180px] lg:w-[360px] lg:h-[210px]"
+              className="relative group cursor-pointer w-[280px] h-[180px] sm:w-[320px] sm:h-[210px] md:w-[380px] md:h-[240px] xl:w-[420px] xl:h-[280px]"
             >
               {/* Visual */}
               {option.value === "bright" ? (
@@ -247,13 +247,13 @@ export default function BrightnessQ() {
 
               {/* Label */}
               <div
-                className="absolute bottom-0 left-0 right-0 p-4 rounded-b-xl"
+                className="absolute bottom-0 left-0 right-0 p-5 md:p-6 rounded-b-xl"
                 style={{
                   background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%)",
                 }}
               >
                 <span
-                  className="text-white font-medium text-base"
+                  className="text-white font-medium text-lg md:text-xl"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {option.label}
@@ -266,13 +266,13 @@ export default function BrightnessQ() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center"
+                  className="absolute top-3 right-3 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center"
                   style={{
                     background: "var(--accent-primary)",
                     boxShadow: "0 2px 8px rgba(94, 179, 228, 0.4)",
                   }}
                 >
-                  <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  <Check className="w-4 h-4 md:w-5 md:h-5 text-white" strokeWidth={3} />
                 </motion.div>
               )}
             </motion.button>

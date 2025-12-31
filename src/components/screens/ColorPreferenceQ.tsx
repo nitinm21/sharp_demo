@@ -79,7 +79,7 @@ export default function ColorPreferenceQ() {
           className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          Which looks better?
+          Which color style looks right to you?
         </h2>
       </motion.div>
 
@@ -107,7 +107,7 @@ export default function ColorPreferenceQ() {
               whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(option.value)}
-              className="relative group cursor-pointer rounded-xl overflow-hidden w-[260px] h-[170px] sm:w-[320px] sm:h-[210px] lg:w-[380px] lg:h-[240px]"
+              className="relative group cursor-pointer rounded-xl overflow-hidden w-[280px] h-[180px] sm:w-[320px] sm:h-[210px] md:w-[380px] md:h-[240px] xl:w-[420px] xl:h-[280px]"
             >
               {/* Image with filter */}
               <div className="absolute inset-0">
@@ -117,7 +117,9 @@ export default function ColorPreferenceQ() {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   style={{ filter: option.filter }}
-                  sizes="(min-width: 1024px) 380px, (min-width: 640px) 320px, 260px"
+                  sizes="(min-width: 1280px) 420px, (min-width: 768px) 380px, (min-width: 640px) 320px, 280px"
+                  quality={75}
+                  placeholder="empty"
                 />
               </div>
 
@@ -136,13 +138,13 @@ export default function ColorPreferenceQ() {
 
               {/* Label overlay */}
               <div
-                className="absolute bottom-0 left-0 right-0 p-5"
+                className="absolute bottom-0 left-0 right-0 p-5 md:p-6"
                 style={{
                   background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%)",
                 }}
               >
                 <span
-                  className="text-white font-medium text-lg"
+                  className="text-white font-medium text-lg md:text-xl"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {option.label}

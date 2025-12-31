@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Sora, Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
-// Sora - geometric, modern, luxurious display font
-const sora = Sora({
-  variable: "--font-display",
+// Single Geist font instance with only needed weights (reduces font download size)
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-// Inter - refined, readable body font
-const inter = Inter({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
+  display: "swap", // Prevent FOIT (Flash of Invisible Text)
 });
 
 export const metadata: Metadata = {
@@ -28,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sora.variable} ${inter.variable} antialiased`}>
+      <body className={`${geist.variable} antialiased`}>
         {children}
       </body>
     </html>
