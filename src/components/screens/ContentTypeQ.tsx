@@ -85,8 +85,14 @@ export default function ContentTypeQ() {
           className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          What do you watch most? (Select all that apply)
+          What do you watch most?
         </h2>
+        <p
+          className="mt-3 text-sm md:text-base tracking-wide"
+          style={{ fontFamily: "var(--font-display)", color: "var(--text-muted)" }}
+        >
+          Select all that apply
+        </p>
       </motion.div>
 
       {/* Image-based Options Grid */}
